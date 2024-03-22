@@ -17,8 +17,14 @@
  * 0    => promise that will be fulfilled
  * 1    => promise that will be fulfilled
  */
-function getPromise(/* number */) {
-  throw new Error('Not implemented');
+function getPromise(number) {
+  return new Promise((resolve, reject) => {
+    if (number >= 0) {
+      resolve();
+    } else {
+      reject();
+    }
+  });
 }
 
 /**
@@ -33,8 +39,10 @@ function getPromise(/* number */) {
  * Promise.resolve('success') => promise that will be fulfilled with 'success' value
  * Promise.reject('fail')     => promise that will be fulfilled with 'fail' value
  */
-function getPromiseResult(/* source */) {
-  throw new Error('Not implemented');
+function getPromiseResult(source) {
+  return new Promise((resolve) => {
+    source.then(() => resolve('success')).catch(() => resolve('fail'));
+  });
 }
 
 /**
@@ -104,8 +112,12 @@ function getAllOrNothing(promises) {
  * [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)] => Promise fulfilled with [1, 2, 3]
  * [Promise.resolve(1), Promise.reject(2), Promise.resolve(3)]  => Promise fulfilled with [1, null, 3]
  */
-function getAllResult(/* promises */) {
-  throw new Error('Not implemented');
+function getAllResult(promises) {
+  return Promise.all(
+    promises.map((promise) => {
+      return promise.then((res) => res).catch(() => null);
+    })
+  );
 }
 
 /**
